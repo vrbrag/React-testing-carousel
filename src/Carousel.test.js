@@ -40,3 +40,22 @@ it("works when you click on the left arrow", function () {
   //expect the first image to show
   expect(queryByAltText("Photo by Richard Pasquarella on Unsplash")).toBeInTheDocument()
 })
+
+it("should have 'hidden' class when on either first or last image", function () {
+  const { getByTestId } = render(<Carousel />);
+  const leftArrow = getByTestId("left-arrow");
+  const rightArrow = getByTestId("right-arrow");
+  //expect on first image, left arrow is hidden
+  expect(leftArrow).toHaveClass("hidden")
+  expect(rightArrow).not.toHaveClass("hidden")
+
+  // move forward, both arrow should show
+  fireEvent.click(rightArrow);
+  expect(leftArrow).not.toHaveClass("hidden")
+  expect(rightArrow).not.toHaveClass("hidden")
+
+  //move forward to last image, expect right arrow should be hidden
+  fireEvent.click(rightArrow);
+  expect(leftArrow).not.toHaveClass("hidden")
+  expect(rightArrow).toHaveClass("hidden")
+})
